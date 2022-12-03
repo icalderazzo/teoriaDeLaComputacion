@@ -34,8 +34,6 @@ class EdgeList:
 
 #
 class Graph:
-    # nodes: una lista de elementos de un tipo de dato cualquiera
-    # [1,2,3] o [a,b,c] o [Doha, TuPrima]
     def __init__(self, nodes, edges = []):
         self.nodes = {}
         [self.add_node(Node(n)) for n in nodes]
