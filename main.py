@@ -18,9 +18,9 @@ def main():
             Edge(6,8)
         ])
 
-    print(g.shortest_path(Node(9),Node(0)))
-    print(g.shortest_path_length(Node(9),Node(0)))
-    print(g.check_shortest_path(Node(9),Node(0), [9, 2, 1, 7, 0]))
+    print(g.shortest_path(9,0))
+    print(g.shortest_path_length(9,0))
+    print(g.check_shortest_path(9,0, [9, 2, 1, 7, 0]))
 
 
 if __name__ == "__main__":

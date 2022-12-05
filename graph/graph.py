@@ -94,11 +94,11 @@ class Graph:
     # Shortest path between nodeA and nodeB
     def shortest_path(self, nodeA, nodeB):
         self._reset_visited()
-        if nodeA.value == nodeB.value:
-            return [nodeA.value]
+        if nodeA == nodeB:
+            return [nodeA]
         
         
-        queue = [[self.nodes[nodeA.value]]]
+        queue = [[self._get_node(nodeA)]]
 
         while(queue):
             path = queue.pop(0)
@@ -110,7 +110,7 @@ class Graph:
                     new_path.append(neighbour.dest)
                     queue.append(new_path)
 
-                    if neighbour.value == nodeB.value:
+                    if neighbour.value == nodeB:
                         result = []
                         for node in new_path:
                             result.append(node.value)
