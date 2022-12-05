@@ -28,14 +28,14 @@ class Node:
         self.visited = True
         nodes.append(self.value)
         stack = []
-        stack.append(self)
+        stack.insert(0,self)
         while (len(stack) > 0):
             x = stack.pop()
             for adj in x.adj_list:
                 if not adj.dest.visited:
                     adj.dest.visited = True
                     nodes.append(adj.dest.value)
-                    stack.append(adj.dest)
+                    stack.insert(0, adj.dest)
                     
     def _lookup_adj(self, node):
         for a in self.adj_list:
