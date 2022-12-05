@@ -17,6 +17,9 @@ class Node:
     
     # Busqueda en profundidad
     def dfs(self, nodes):
+        # 1: Marcar nodo como visitado
+        # 2: Agregarse a si mismo a la lista de nodos visitados (nodes)
+        # 3: Llamar recursivamente a DFS para cada adyacencia que tenga el nodo no visitado
         self.visited = True
         nodes.append(self.value)
         for adj in self.adj_list:
@@ -25,6 +28,10 @@ class Node:
 
     # Busqueda en amplitud
     def bfs(self, nodes):
+        # 1: Marcar nodo como visitado
+        # 2: Agregarse a si mismo a la lista de nodos visitados (nodes)
+        # 3: Recorrer el grafo en forma de arbol, agregando todos los nodos adyacentes no visitados a la lista resultante
+        # 4: Agregar los nodos visitados al stack para procesar sus adyacencias 
         self.visited = True
         nodes.append(self.value)
         stack = []
@@ -70,6 +77,9 @@ class Graph:
 
     # Busqueda en profundidad
     def dfs(self, node):
+        # 1: Resetear visitados
+        # 2: Comenzar DFS desde el nodo pasado por parametros
+        # 3: Continuar DFS en aquellos nodos que no han sido visitados
         nodes = []
         origin = self._get_node(node)
         if (origin != None):
@@ -82,6 +92,8 @@ class Graph:
 
     # Busqueda en amplitud
     def bfs(self, node):
+        # 1: Resetear visitados
+        # 2: Comenzar BFS desde el nodo pasado por parametros
         nodes = []
         origin = self._get_node(node)
         if (origin != None):
