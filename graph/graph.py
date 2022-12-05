@@ -95,11 +95,13 @@ class Graph:
         # 2: Realizar busqueda en profundidad (DFS) en aquellos nodos que no fueron visitados
         # 3: Aumentar contador luego de cada DFS
         self._unvisit_all()
+        # comenzar dfs desde el primer nodo
+        self.dfs(self.nodes[self.nodes.keys[0]])
         cc = []
         for n in self.nodes:
             # Si el nodo no fue visitado, realizar DFS 
             if(not self.nodes[n].visited):
-                ## call dfs(n) and append the list
+                self.dfs(self.nodes[n])
                 cc.append()  
         return cc
     
@@ -109,11 +111,13 @@ class Graph:
         # 2: Realizar busqueda en profundidad (DFS) en aquellos nodos que no fueron visitados
         # 3: Aumentar contador luego de cada DFS
         self._unvisit_all()
+        # comenzar dfs desde el primer nodo
+        self.dfs(self.nodes[self.nodes.keys[0]])
         count = 0
         for n in self.nodes:
             # Si el nodo no fue visitado, realizar DFS 
             if(not self.nodes[n].visited):
-                ## call dfs(n) and append the list
+                self.dfs(self.nodes[n])
                 count += 1 
         return count
 
