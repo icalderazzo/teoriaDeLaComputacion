@@ -136,7 +136,7 @@ class Graph:
     # Camino mas corto entre A y B
     def shortest_path(self, nodeA, nodeB):
         #1: Resetear visitados
-        self._reset_visited()
+        self._unvisit_all()
 
         #2: Si el nodo origen y destino es el mismo, retornar un camino consigo mismo
         if nodeA == nodeB:
