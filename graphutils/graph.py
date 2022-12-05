@@ -6,15 +6,15 @@ class Adjacency:
 
 # Nodo o vertice
 class Node:
-    def __init__(self, value, visited = False):
+    def __init__(self, value, visited=False):
         self.value = value
         self.adj_list = []
         self.visited = visited
-    
+
     def add_adj(self, node):
-        if(self._lookup_adj(node) == None):
+        if (self._lookup_adj(node) == None):
             self.adj_list.append(Adjacency(node))
-    
+
     # Busqueda en profundidad
     def dfs(self, nodes):
         # 1: Marcar nodo como visitado
@@ -31,11 +31,11 @@ class Node:
         # 1: Marcar nodo como visitado
         # 2: Agregarse a si mismo a la lista de nodos visitados (nodes)
         # 3: Recorrer el grafo en forma de arbol, agregando todos los nodos adyacentes no visitados a la lista resultante
-        # 4: Agregar los nodos visitados al stack para procesar sus adyacencias 
+        # 4: Agregar los nodos visitados al stack para procesar sus adyacencias
         self.visited = True
         nodes.append(self.value)
         stack = []
-        stack.insert(0,self)
+        stack.insert(0, self)
         while (len(stack) > 0):
             x = stack.pop()
             for adj in x.adj_list:
@@ -43,12 +43,12 @@ class Node:
                     adj.dest.visited = True
                     nodes.append(adj.dest.value)
                     stack.insert(0, adj.dest)
-                    
+
     def _lookup_adj(self, node):
         for a in self.adj_list:
-            if(a.value == node.value):
+            if (a.value == node.value):
                 return a
-        return None             
+        return None
 
 # Arista
 class Edge:
@@ -58,17 +58,17 @@ class Edge:
 
 # Grafo (no dirigido)
 class Graph:
-    def __init__(self, nodes, edges = []):
+    def __init__(self, nodes, edges=[]):
         self.nodes = {}
         [self.add_node(Node(n)) for n in nodes]
         [self.add_edge(e) for e in edges]
 
     def add_node(self, node):
-        if(not self._lookup_node(node.value)):
+        if (not self._lookup_node(node.value)):
             self.nodes[node.value] = node
 
     def add_edge(self, edge):
-        if(self._lookup_node(edge.origin) and self._lookup_node(edge.destination)):
+        if (self._lookup_node(edge.origin) and self._lookup_node(edge.destination)):
             node1 = self._get_node(edge.origin)
             node2 = self._get_node(edge.destination)
             # Agrega ambas referencias
@@ -110,14 +110,14 @@ class Graph:
         # comenzar bfs desde el primer nodo y agregar el resultado a la lista
         cc = [self.bfs(list(self.nodes.keys())[0])]
         for n in self.nodes:
-            # Si el nodo no fue visitado, realizar DFS 
+            # Si el nodo no fue visitado, realizar DFS
             current_node = self.nodes[n]
-            if(not current_node.visited):
+            if (not current_node.visited):
                 current_component = []
                 current_node.bfs(current_component)
-                cc.append(current_component)  
+                cc.append(current_component)
         return cc
-    
+
     # Cantidad de componented conexos
     def count_connected_components(self):
         return len(self.connected_components())
@@ -130,20 +130,20 @@ class Graph:
         self._unvisit_all()
         self.bfs(list(self.nodes.keys())[0])
         for n in self.nodes:
-            if(not self.nodes[n].visited):
+            if (not self.nodes[n].visited):
                 return False
         return True
 
     # Camino mas corto entre A y B
     def shortest_path(self, nodeA, nodeB):
         # Retornar vacio si alguno de los 2 nodos no esta en el grafo
-        if(not self._lookup_node(nodeA) or not self._lookup_node(nodeB)):
+        if (not self._lookup_node(nodeA) or not self._lookup_node(nodeB)):
             return []
 
         # Retornar un camino consigo mismo si el nodo origen y destino es el mismo
         if nodeA == nodeB:
             return [nodeA]
-        
+
         # 1: Inicializar una lista con el nodo de etiqueta (value) de nodeA
         # 2: Mientras la lista no este vacia, se recorren las adyacencias de los nodos no visitados
         # 3: Agregar adyacenias al camino
@@ -153,7 +153,7 @@ class Graph:
         # Resetear visitados
         self._unvisit_all()
         queue = [[self._get_node(nodeA)]]
-        while(queue):
+        while (queue):
             path = queue.pop(0)
             node = path[-1]
             if not node.visited:
@@ -183,7 +183,7 @@ class Graph:
 
     def _lookup_node(self, nodeValue):
         return nodeValue in self.nodes
-    
+
     def _unvisit_all(self):
         for n in self.nodes:
             self.nodes[n].visited = False
