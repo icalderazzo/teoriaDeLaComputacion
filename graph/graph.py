@@ -1,4 +1,4 @@
-# Adyacencia
+# adjacencia
 class Adjacency:
     def __init__(self, dest):
         self.dest = dest
@@ -12,16 +12,16 @@ class Node:
         self.visited = visited
     
     def add_adj(self, node):
-        if(self._lookup_adj(node) != None):
-            self.add_adj.append(Adjacency(node))
+        if(self._lookup_adj(node) == None):
+            self.adj_list.append(Adjacency(node))
     
     # Busqueda en profundidad
     def dfs(self, nodes):
         self.visited = True
         nodes.append(self.value)
-        for ady in self.adj_list:
-            if not ady.visited:
-                ady.dfs(nodes)
+        for adj in self.adj_list:
+            if not adj.dest.visited:
+                adj.dest.dfs(nodes)
 
     # Busqueda en amplitud
     def bfs(self, nodes):
@@ -31,11 +31,11 @@ class Node:
         stack.append(self)
         while (len(stack) > 0):
             x = stack.pop()
-            for ady in x.adj_list:
-                if not ady.dest.visited:
-                    ady.dest.visited = True
-                    nodes.append(ady.dest.value)
-                    stack.append(ady.dest)
+            for adj in x.adj_list:
+                if not adj.dest.visited:
+                    adj.dest.visited = True
+                    nodes.append(adj.dest.value)
+                    stack.append(adj.dest)
                     
     def _lookup_adj(self, node):
         for a in self.adj_list:
@@ -71,7 +71,7 @@ class Graph:
     # Busqueda en profundidad
     def dfs(self, node):
         nodes = []
-        origin = self._get_node(node.value)
+        origin = self._get_node(node)
         if (origin != None):
             self._unvisit_all()
             origin.dfs(nodes)
@@ -83,7 +83,7 @@ class Graph:
     # Busqueda en amplitud
     def bfs(self, node):
         nodes = []
-        origin = self._get_node(node.value)
+        origin = self._get_node(node)
         if (origin != None):
             self._unvisit_all()
             origin.bfs(nodes)
