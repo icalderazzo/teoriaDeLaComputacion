@@ -122,6 +122,50 @@ class Graph:
                 return False
         return True
 
+    # Camino mas corto entre A y B
+    def shortest_path(self, nodeA, nodeB):
+        #1: Resetear visitados
+        self._unvisit_all()
+
+        #2: Si el nodo origen y destino es el mismo, retornar un camino consigo mismo
+        if nodeA == nodeB:
+            return [nodeA]
+        
+        #3: Inicializo una queue con el nodo representado por la etiqueta A
+        queue = [[self._get_node(nodeA)]]
+
+        while(queue):
+            path = queue.pop(0)
+            node = path[-1]
+
+            #4: Si el nodo no fue visitado, reviso su lista de adyacencias
+            if not node.visited:
+                for neighbour in node.adj_list:
+                    #5: Voy agregando las adyacencias al path
+                    new_path = list(path)
+                    new_path.append(neighbour.dest)
+                    queue.append(new_path)
+
+                    #6: Si uno de mis vecinos es el nodo destino, terminamos el camino
+                    if neighbour.value == nodeB:
+                        result = []
+                        for node in new_path:
+                            result.append(node.value)
+                        return result
+                node.visited = True
+
+        return []
+
+    # Largo del camino mas corto
+    def shortest_path_length(self, nodeA, nodeB):
+        return len((self.shortest_path(nodeA, nodeB)))
+
+    # Reviso si el camino objetivo es el mismo que el camino mas corto
+    def check_shortest_path(self, nodeA, nodeB, uncheckedPath):
+        return self.shortest_path(nodeA, nodeB) == uncheckedPath
+
+        
+
     def _get_node(self, nodeValue):
         return self.nodes[nodeValue]
 

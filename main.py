@@ -30,7 +30,10 @@ def main():
             Edge(8,9)
         ]
     )    
-    
+
+    print(g.shortest_path(9,0))
+    print(g.shortest_path_length(9,0))
+    print(g.check_shortest_path(9,0, [9, 2, 1, 7, 0]))    
     print(g.dfs(2))
     print(g.bfs(0))
     print(g.is_connected())
