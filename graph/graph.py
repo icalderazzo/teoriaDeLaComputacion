@@ -12,8 +12,8 @@ class Node:
         self.visited = visited
     
     def add_adj(self, node):
-        if(self._lookup_adj(node) != None):
-            self.add_adj.append(Adjacency(node))
+        if(self._lookup_adj(node) == None):
+            self.adj_list.append(Adjacency(node))
 
     def _lookup_adj(self, node):
         for a in self.adj_list:
@@ -90,6 +90,42 @@ class Graph:
             if(not self.nodes[n].visited):
                 return False
         return True
+
+    # Shortest path between nodeA and nodeB
+    def shortest_path(self, nodeA, nodeB):
+        self._reset_visited()
+        if nodeA.value == nodeB.value:
+            return [nodeA.value]
+        
+        
+        queue = [[self.nodes[nodeA.value]]]
+
+        while(queue):
+            path = queue.pop(0)
+            node = path[-1]
+
+            if not node.visited:
+                for neighbour in node.adj_list:
+                    new_path = list(path)
+                    new_path.append(neighbour.dest)
+                    queue.append(new_path)
+
+                    if neighbour.value == nodeB.value:
+                        result = []
+                        for node in new_path:
+                            result.append(node.value)
+                        return result
+                node.visited = True
+
+        return []
+
+    def shortest_path_length(self, nodeA, nodeB):
+        return len((self.shortest_path(nodeA, nodeB)))
+
+    def check_shortest_path(self, nodeA, nodeB, uncheckedPath):
+        return self.shortest_path(nodeA, nodeB) == uncheckedPath
+
+        
 
     def _get_node(self, nodeValue):
         return self.nodes[nodeValue]
