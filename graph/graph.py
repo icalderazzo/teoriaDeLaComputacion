@@ -29,7 +29,7 @@ class Node:
         nodes.append(self.value)
         stack = []
         stack.append(self)
-        while (stack.count > 0):
+        while (len(stack) > 0):
             x = stack.pop()
             for ady in x.adj_list:
                 if not ady.dest.visited:
