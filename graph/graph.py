@@ -92,42 +92,31 @@ class Graph:
     # Componentes conexos
     def connected_components(self):
         # 1: Resetear visitados
-        # 2: Realizar busqueda en profundidad (DFS) en aquellos nodos que no fueron visitados
-        # 3: Aumentar contador luego de cada DFS
+        # 2: Realizar busqueda en amplitud (BFS) en aquellos nodos que no fueron visitados
+        # 3: Agregar el resultado de la BFS en cada nodo no visitado a la lista resultante
         self._unvisit_all()
-        # comenzar dfs desde el primer nodo
-        self.dfs(self.nodes[self.nodes.keys[0]])
-        cc = []
+        # comenzar bfs desde el primer nodo y agregar el resultado a la lista
+        cc = [self.bfs(list(self.nodes.keys())[0])]
         for n in self.nodes:
             # Si el nodo no fue visitado, realizar DFS 
-            if(not self.nodes[n].visited):
-                self.dfs(self.nodes[n])
-                cc.append()  
+            current_node = self.nodes[n]
+            if(not current_node.visited):
+                current_component = []
+                current_node.bfs(current_component)
+                cc.append(current_component)  
         return cc
     
     # Cantidad de componented conexos
     def count_connected_components(self):
-        # 1: Resetear visitados
-        # 2: Realizar busqueda en profundidad (DFS) en aquellos nodos que no fueron visitados
-        # 3: Aumentar contador luego de cada DFS
-        self._unvisit_all()
-        # comenzar dfs desde el primer nodo
-        self.dfs(self.nodes[self.nodes.keys[0]])
-        count = 0
-        for n in self.nodes:
-            # Si el nodo no fue visitado, realizar DFS 
-            if(not self.nodes[n].visited):
-                self.dfs(self.nodes[n])
-                count += 1 
-        return count
+        return len(self.connected_components())
 
     # Es conexto
     def is_connected(self):
-        # 1: Se hace una busqueda en profunidad
+        # 1: Se hace una busqueda en amplitud
         # 2: Se recorren todos los nodos y se pregunta si fueron visitados
         # 3: Si alguno no fue visitado, devuleve Falso, de lo contratio Verdadero
         self._unvisit_all()
-        # self.dfs()
+        self.bfs(list(self.nodes.keys())[0])
         for n in self.nodes:
             if(not self.nodes[n].visited):
                 return False
