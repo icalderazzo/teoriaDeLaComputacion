@@ -14,7 +14,29 @@ class Node:
     def add_adj(self, node):
         if(self._lookup_adj(node) != None):
             self.add_adj.append(Adjacency(node))
+    
+    # Busqueda en profundidad
+    def dfs(self, nodes):
+        self.visited = True
+        nodes.append(self.value)
+        for ady in self.adj_list:
+            if not ady.visited:
+                ady.dfs(nodes)
 
+    # Busqueda en amplitud
+    def bfs(self, nodes):
+        self.visited = True
+        nodes.append(self.value)
+        stack = []
+        stack.append(self)
+        while (stack.count > 0):
+            x = stack.pop()
+            for ady in x.adj_list:
+                if not ady.dest.visited:
+                    ady.dest.visited = True
+                    nodes.append(ady.dest.value)
+                    stack.append(ady.dest)
+                    
     def _lookup_adj(self, node):
         for a in self.adj_list:
             if(a.value == node.value):
@@ -26,11 +48,6 @@ class Edge:
     def __init__(self, origin, destination):
         self.origin = origin
         self.destination = destination
-
-#
-class EdgeList:
-    def __init__(self, edgeList):
-        self.edgeList = edgeList
 
 # Grafo (no dirigido)
 class Graph:
@@ -51,12 +68,33 @@ class Graph:
             node1.add_adj(node2)
             node2.add_adj(node1)
 
+    # Busqueda en profundidad
+    def dfs(self, node):
+        nodes = []
+        origin = self._get_node(node.value)
+        if (origin != None):
+            self._unvisit_all()
+            origin.dfs(nodes)
+            for n in self.nodes.values():
+                if not n.visited:
+                    n.dfs(nodes)
+        return nodes
+
+    # Busqueda en amplitud
+    def bfs(self, node):
+        nodes = []
+        origin = self._get_node(node.value)
+        if (origin != None):
+            self._unvisit_all()
+            origin.bfs(nodes)
+        return nodes
+
     # Componentes conexos
     def connected_components(self):
         # 1: Resetear visitados
         # 2: Realizar busqueda en profundidad (DFS) en aquellos nodos que no fueron visitados
         # 3: Aumentar contador luego de cada DFS
-        self._reset_visited()
+        self._unvisit_all()
         cc = []
         for n in self.nodes:
             # Si el nodo no fue visitado, realizar DFS 
@@ -70,7 +108,7 @@ class Graph:
         # 1: Resetear visitados
         # 2: Realizar busqueda en profundidad (DFS) en aquellos nodos que no fueron visitados
         # 3: Aumentar contador luego de cada DFS
-        self._reset_visited()
+        self._unvisit_all()
         count = 0
         for n in self.nodes:
             # Si el nodo no fue visitado, realizar DFS 
@@ -84,7 +122,7 @@ class Graph:
         # 1: Se hace una busqueda en profunidad
         # 2: Se recorren todos los nodos y se pregunta si fueron visitados
         # 3: Si alguno no fue visitado, devuleve Falso, de lo contratio Verdadero
-        self._reset_visited()
+        self._unvisit_all()
         # self.dfs()
         for n in self.nodes:
             if(not self.nodes[n].visited):
@@ -97,6 +135,6 @@ class Graph:
     def _lookup_node(self, nodeValue):
         return nodeValue in self.nodes
     
-    def _reset_visited(self):
+    def _unvisit_all(self):
         for n in self.nodes:
             self.nodes[n].visited = False
