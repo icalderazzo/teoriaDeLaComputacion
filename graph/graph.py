@@ -1,4 +1,4 @@
-# adjacencia
+# Adjacencia
 class Adjacency:
     def __init__(self, dest):
         self.dest = dest
@@ -64,7 +64,7 @@ class Graph:
         if(self._lookup_node(edge.origin) and self._lookup_node(edge.destination)):
             node1 = self._get_node(edge.origin)
             node2 = self._get_node(edge.destination)
-            # agrega ambas referencias
+            # Agrega ambas referencias
             node1.add_adj(node2)
             node2.add_adj(node1)
 
@@ -124,47 +124,47 @@ class Graph:
 
     # Camino mas corto entre A y B
     def shortest_path(self, nodeA, nodeB):
-        #1: Resetear visitados
-        self._unvisit_all()
+        # Retornar vacio si alguno de los 2 nodos no esta en el grafo
+        if(not self._lookup_node(nodeA) or not self._lookup_node(nodeB)):
+            return []
 
-        #2: Si el nodo origen y destino es el mismo, retornar un camino consigo mismo
+        # Retornar un camino consigo mismo si el nodo origen y destino es el mismo
         if nodeA == nodeB:
             return [nodeA]
         
-        #3: Inicializo una queue con el nodo representado por la etiqueta A
-        queue = [[self._get_node(nodeA)]]
+        # 1: Inicializar una lista con el nodo de etiqueta (value) de nodeA
+        # 2: Mientras la lista no este vacia, se recorren las adyacencias de los nodos no visitados
+        # 3: Agregar adyacenias al camino
+        # 4: Si se encuentra que el nodo que se esta iterando es el objetivo, entonces retorna el path formado en la iteración
+        # 5: Retornar vacio si no llega a destino
 
+        # Resetear visitados
+        self._unvisit_all()
+        queue = [[self._get_node(nodeA)]]
         while(queue):
             path = queue.pop(0)
             node = path[-1]
-
-            #4: Si el nodo no fue visitado, reviso su lista de adyacencias
             if not node.visited:
                 for neighbour in node.adj_list:
-                    #5: Voy agregando las adyacencias al path
                     new_path = list(path)
                     new_path.append(neighbour.dest)
                     queue.append(new_path)
 
-                    #6: Si uno de mis vecinos es el nodo destino, terminamos el camino
                     if neighbour.value == nodeB:
                         result = []
                         for node in new_path:
                             result.append(node.value)
                         return result
                 node.visited = True
-
         return []
 
     # Largo del camino mas corto
     def shortest_path_length(self, nodeA, nodeB):
         return len((self.shortest_path(nodeA, nodeB)))
 
-    # Reviso si el camino objetivo es el mismo que el camino mas corto
+    # Checkqueo de si un camino dado es efectivamente el camino mas corto entre dos nodos
     def check_shortest_path(self, nodeA, nodeB, uncheckedPath):
         return self.shortest_path(nodeA, nodeB) == uncheckedPath
-
-        
 
     def _get_node(self, nodeValue):
         return self.nodes[nodeValue]
