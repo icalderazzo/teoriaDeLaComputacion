@@ -172,7 +172,7 @@ class Graph:
 
     # Largo del camino mas corto
     def shortest_path_length(self, nodeA, nodeB):
-        return len((self.shortest_path(nodeA, nodeB)))
+        return len((self.shortest_path(nodeA, nodeB))) - 1
 
     # Checkqueo de si un camino dado es efectivamente el camino mas corto entre dos nodos
     def check_shortest_path(self, nodeA, nodeB, uncheckedPath):
